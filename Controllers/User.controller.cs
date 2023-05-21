@@ -13,8 +13,6 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
-
-
 using Assignment_1.Models;
 using Assignment_1.Data;
 using Assignment_1.Services;
@@ -67,34 +65,13 @@ namespace Assignment_1.Controllers
             {
                 return NotFound();
             }   
-            // Console.WriteLine("USER IN DB : " + userInDb.Username + " " + userInDb.Password + " " + userInDb.Role + " " + userInDb.Id);
-            // var token = _jwtService.GenerateToken(userInDb.Username, userInDb.Role, userInDb.Id.ToString());
-            // var response = new
-            // {
-            //     token = token,
-            //     user = userInDb
-            // };
-            // return Ok(response);
-            var claims = new[]
-            {
-                new Claim(ClaimTypes.Name, userInDb.Username),
-                new Claim(ClaimTypes.Role, userInDb.Role),
-                new Claim(ClaimTypes.NameIdentifier, userInDb.Id.ToString())
-            };
-
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Key"]));
-            var signIn=new SigningCredentials(key,SecurityAlgorithms.HmacSha256);
-            var token = new JwtSecurityToken(
-                _configuration["JWT:Issuer"],
-                _configuration["JWT:Audience"],
-                claims,
-                expires: DateTime.Now.AddMinutes(15),
-                signingCredentials: signIn);
-            var jwtToken = new JwtSecurityTokenHandler().WriteToken(token);
-            Console.WriteLine("JWT TOKEN : " + jwtToken);
+            Console.WriteLine("USER IN DB : " + userInDb.Username + " " + userInDb.Password + " " + userInDb.Role + " " + userInDb.Id);
+            // write type of userInDb.id
+            Console.WriteLine("USER IN DB ID : " + userInDb.Id.GetType());
+            var token = _jwtService.GenerateToken(userInDb.Username, userInDb.Role, userInDb.Id.ToString());
             var response = new
             {
-                token = jwtToken,
+                token = token,
                 user = userInDb
             };
             return Ok(response);
