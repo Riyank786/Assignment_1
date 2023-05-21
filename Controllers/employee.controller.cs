@@ -27,6 +27,21 @@ namespace Assignment_1.Controllers
             _userController = userController;
         }
         
+        // get employee details from token claims id
+        [HttpGet]
+        [Route("getEmployee")]
+        public IActionResult GetUser()
+        {
+            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            var user = _context.Users.FirstOrDefault(u => u.Id == Int32.Parse(userId));
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return Ok(user);
+        }
+
+        // get all employees accessable by admin only
         [Authorize(Roles = "Admin")]
         [HttpGet]
         [Route("getall")]
@@ -36,20 +51,7 @@ namespace Assignment_1.Controllers
             return Ok(employees);
         }
 
-        [HttpGet]
-        [Route("getUser")]
-        public IActionResult GetUser()
-        {
-            Console.WriteLine("GET USER");
-            // get user id from token which is stored ad userId
-            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
-            Console.WriteLine("USER ID : " +userId);
-            // get user from db
-            var user = _context.Users.FirstOrDefault(u => u.Id == Int32.Parse(userId));
-            // return user
-            return Ok(user);
-        }
-
+        // get employee by id accessable by admin only
         [Authorize(Roles = "Admin")]
         [HttpGet]
         [Route("get/{id}")]
@@ -63,6 +65,7 @@ namespace Assignment_1.Controllers
             return Ok(employee);
         }
 
+        // add employee accessable by admin only
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [Route("add")]
@@ -78,6 +81,7 @@ namespace Assignment_1.Controllers
             return Ok(employee);
         }
 
+        // update employee accessable by admin only
         [Authorize(Roles = "Admin")]
         [HttpPut]
         [Route("update")]
@@ -98,6 +102,7 @@ namespace Assignment_1.Controllers
             return Ok(employeeInDb);
         }
 
+        // delete employee accessable by admin only
         [Authorize(Roles = "Admin")]
         [HttpDelete]
         [Route("delete/{id}")]

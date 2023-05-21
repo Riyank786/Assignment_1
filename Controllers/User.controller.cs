@@ -67,12 +67,19 @@ namespace Assignment_1.Controllers
             {
                 return NotFound();
             }   
-            Console.WriteLine("USER IN DB : " + userInDb.Username + " " + userInDb.Password + " " + userInDb.Role);
+            // Console.WriteLine("USER IN DB : " + userInDb.Username + " " + userInDb.Password + " " + userInDb.Role + " " + userInDb.Id);
+            // var token = _jwtService.GenerateToken(userInDb.Username, userInDb.Role, userInDb.Id.ToString());
+            // var response = new
+            // {
+            //     token = token,
+            //     user = userInDb
+            // };
+            // return Ok(response);
             var claims = new[]
             {
                 new Claim(ClaimTypes.Name, userInDb.Username),
                 new Claim(ClaimTypes.Role, userInDb.Role),
-                new Claim("UserId", userInDb.Id.ToString())
+                new Claim(ClaimTypes.NameIdentifier, userInDb.Id.ToString())
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Key"]));

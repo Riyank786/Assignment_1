@@ -24,13 +24,15 @@ namespace Assignment_1.Services
             _configuration = configuration;
         }
 
-        public string GenerateToken(string username, string role)
+        public string GenerateToken(string username, string role, string userId)
         {
             Console.WriteLine("USERNAME : " + username);
             Console.WriteLine("ROLE : " + role);
+            Console.WriteLine("USERID : " + userId);
             var claims = new[] {
                 new Claim(ClaimTypes.Name, username),
-                new Claim(ClaimTypes.Role, role)
+                new Claim(ClaimTypes.Role, role),
+                new Claim(ClaimTypes.NameIdentifier, userId)
             };
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Secret"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
