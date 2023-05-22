@@ -12,17 +12,14 @@ using System.Security.Claims;
 using Assignment_1.Data;
 using Assignment_1.Models;
 
-namespace Assignment_1.Controllers
-{
+namespace Assignment_1.Controllers {
     [Authorize]
     [ApiController]
     [Route("api/employee")]
-    public class EmployeeController : Controller
-    {
+    public class EmployeeController : Controller {
         private readonly Assignment_1Context _context;
         private readonly UserController _userController;
-        public EmployeeController(Assignment_1Context context, UserController userController)
-        {
+        public EmployeeController(Assignment_1Context context, UserController userController) {
             _context = context;
             _userController = userController;
         }
@@ -30,12 +27,10 @@ namespace Assignment_1.Controllers
         // get employee details from token claims id
         [HttpGet]
         [Route("getEmployee")]
-        public IActionResult GetUser()
-        {
+        public IActionResult GetUser() {
             var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
             var user = _context.Users.FirstOrDefault(u => u.Id == Int32.Parse(userId));
-            if (user == null)
-            {
+            if (user == null) {
                 return NotFound();
             }
             return Ok(user);
@@ -45,8 +40,7 @@ namespace Assignment_1.Controllers
         [Authorize(Roles = "Admin")]
         [HttpGet]
         [Route("getall")]
-        public IActionResult GetAll()
-        {
+        public IActionResult GetAll() {
             var employees = _context.Employees.ToList();
             return Ok(employees);
         }
@@ -55,11 +49,9 @@ namespace Assignment_1.Controllers
         [Authorize(Roles = "Admin")]
         [HttpGet]
         [Route("get/{id}")]
-        public IActionResult Get(int id)
-        {
+        public IActionResult Get(int id) {
             var employee = _context.Employees.FirstOrDefault(e => e.Id == id);
-            if (employee == null)
-            {
+            if (employee == null) {
                 return NotFound();
             }
             return Ok(employee);
@@ -69,10 +61,8 @@ namespace Assignment_1.Controllers
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [Route("add")]
-        public IActionResult Add([FromBody] Employee employee)
-        {
-            if (employee == null)
-            {
+        public IActionResult Add([FromBody] Employee employee) {
+            if (employee == null) {
                 return BadRequest();
             }
             _context.Employees.Add(employee);
@@ -85,15 +75,12 @@ namespace Assignment_1.Controllers
         [Authorize(Roles = "Admin")]
         [HttpPut]
         [Route("update")]
-        public IActionResult Update([FromBody] Employee employee)
-        {
-            if (employee == null)
-            {
+        public IActionResult Update([FromBody] Employee employee) {
+            if (employee == null) {
                 return BadRequest();
             }
             var employeeInDb = _context.Employees.FirstOrDefault(e => e.Id == employee.Id);
-            if (employeeInDb == null)
-            {
+            if (employeeInDb == null) {
                 return NotFound();
             }
             employeeInDb.Name = employee.Name;
@@ -106,15 +93,14 @@ namespace Assignment_1.Controllers
         [Authorize(Roles = "Admin")]
         [HttpDelete]
         [Route("delete/{id}")]
-        public IActionResult Delete(int id)
-        {
+        public IActionResult Delete(int id) {
             var employeeInDb = _context.Employees.FirstOrDefault(e => e.Id == id);
-            if (employeeInDb == null)
-            {
+            if (employeeInDb == null) {
                 return NotFound();
             }
             _context.Employees.Remove(employeeInDb);
             _context.SaveChanges();
+            _userController.DeleteUser(employeeInDb.Name);
             return Ok(employeeInDb);
         }
     }

@@ -13,24 +13,21 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace Assignment_1.Services
-{
-    public class JwtService
-    {
+namespace Assignment_1.Services {
+    public class JwtService {
         private readonly IConfiguration _configuration;
 
-        public JwtService(IConfiguration configuration)
-        {
+        public JwtService(IConfiguration configuration) {
             _configuration = configuration;
         }
 
-        public string GenerateToken(string username, string role, string userId)
-        {
+        public string GenerateToken(string username, string role, string userId) {
+            
             Console.WriteLine("USERNAME : " + username);
             Console.WriteLine("ROLE : " + role);
             Console.WriteLine("USERID : " + userId);
-            var claims = new[]
-            {
+            
+            var claims = new[] {
                 new Claim(ClaimTypes.Name, username),
                 new Claim(ClaimTypes.Role, role),
                 new Claim(ClaimTypes.NameIdentifier, userId.ToString())
@@ -42,7 +39,7 @@ namespace Assignment_1.Services
                 _configuration["JWT:Issuer"],
                 _configuration["JWT:Audience"],
                 claims,
-                expires: DateTime.Now.AddMinutes(15),
+                expires: DateTime.Now.AddDays(15),
                 signingCredentials: signIn);
             return new JwtSecurityTokenHandler().WriteToken(token);
         }

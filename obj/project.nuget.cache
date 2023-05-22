@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "v5oCO1lI38e3BNV1aEk3dDUfQe3lo+tWwatW5vrTh94MenOt68STjnKmCAQv6tFzKyTTQBdNOOI0mmdjdE2+gQ==",
+  "dgSpecHash": "HT83rjg8oTJSHp5YETKUfaT/HxZp6YVfGrUj9JpvIw+pbRw89mgNZ5DEFaMaS6QQiFXV3v45QD0MlYu+UYHfLA==",
   "success": true,
   "projectFilePath": "D:\\Visual Studio Material\\CELEBAL\\dotnet\\Assignment_1\\Assignment_1.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Riyank\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\Riyank\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\Riyank\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\7.0.5\\microsoft.aspnetcore.authentication.jwtbearer.7.0.5.nupkg.sha512",
     "C:\\Users\\Riyank\\.nuget\\packages\\microsoft.aspnetcore.openapi\\7.0.4\\microsoft.aspnetcore.openapi.7.0.4.nupkg.sha512",

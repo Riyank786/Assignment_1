@@ -1,10 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -19,10 +12,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddScoped<JwtService>();
+builder.Services.AddScoped<PasswordService>();
 builder.Services.AddControllers().AddControllersAsServices();
 
 builder.Services.AddDbContext<Assignment_1Context>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Assignment_1Context") ?? throw new InvalidOperationException("Connection string 'Assignment_1Context' not found.")));
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
